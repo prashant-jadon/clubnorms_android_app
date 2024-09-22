@@ -46,7 +46,7 @@ public class SignUpWithEmailActivity extends AppCompatActivity {
         emailEdit = findViewById(R.id.email);
         usernameEdit = findViewById(R.id.username);
         passwordEdit = findViewById(R.id.password);
-        rePasswordEdit = findViewById(R.id.repassword);
+        rePasswordEdit = findViewById(R.id.rePassword);
 
         createAccountButton = findViewById(R.id.createAccount);
         moveToSignInPage = findViewById(R.id.moveToSignInPage);

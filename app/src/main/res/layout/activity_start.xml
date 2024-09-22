@@ -1,0 +1,72 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:padding="28dp"
+    android:layout_centerInParent="true"
+    android:gravity="center"
+    android:background="@android:color/white">
+
+    <!-- Header Title -->
+    <ImageView
+        android:id="@+id/appHeadTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/head"
+        android:layout_gravity="center"/>
+    <!-- Image -->
+    <ImageView
+        android:id="@+id/startImage"
+        android:layout_width="wrap_content"
+        android:layout_height="270dp"
+        android:layout_gravity="center"
+        android:src="@drawable/imageofstart"
+        android:contentDescription="image of start"/>
+
+    <!-- Description Text -->
+    <TextView
+        android:id="@+id/descriptionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Connect with like-minded individuals\nfor focused, productive sessions\nstudy or work, together."
+        android:textSize="18sp"
+        android:fontFamily="@font/aoboshione"
+        android:textColor="@android:color/black"
+        android:textAlignment="center"/>
+
+    <!-- Google Sign Up Button -->
+    <Button
+        android:layout_marginTop="20dp"
+        android:id="@+id/googleSignInButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:background="@drawable/rounded_button"        android:fontFamily="@font/aoboshione"
+        android:text="Sign In using Google"
+        android:drawablePadding="8dp"/>
+
+    <!-- Email Sign Up Button -->
+    <Button
+        android:layout_marginTop="20dp"
+        android:id="@+id/emailSignInButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/aoboshione"
+        android:background="@drawable/rounded_button"
+        android:text="Sign In with Email"
+        android:drawablePadding="8dp"/>
+
+    <!-- Terms and Conditions Text -->
+    <TextView
+        android:id="@+id/termsConditionsText"
+        android:layout_width="match_parent"
+        android:fontFamily="@font/aoboshione"
+        android:layout_height="wrap_content"
+        android:text="Terms and Conditions"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>

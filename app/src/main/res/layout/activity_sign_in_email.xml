@@ -47,8 +47,8 @@ Let's get productive together."
     <EditText
         android:layout_width="290dp"
         android:layout_height="wrap_content"
-        android:id="@+id/username"
-        android:hint="Username"
+        android:id="@+id/email"
+        android:hint="Email"
         android:fontFamily="@font/aoboshione"
         android:textColorHint="@android:color/darker_gray"/>
 

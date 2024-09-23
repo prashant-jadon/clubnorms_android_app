@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:gravity="center"
+
+    android:padding="16dp">
+
+
+    <!-- Header Title -->
+    <ImageView
+        android:id="@+id/appHeadTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/head"
+        android:layout_gravity="center"/>
+    <!-- Title Text -->
+
+    <!-- Title Text -->
+    <ImageView
+        android:id="@+id/imageForProfile"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:src="@drawable/addphotoicon"
+        android:paddingTop="6dp"
+        android:paddingBottom="8dp"/>
+
+
+
+
+    <EditText
+        android:layout_width="290dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/fullName"
+        android:hint="Full Name"
+        android:fontFamily="@font/aoboshione"
+        android:textColorHint="@android:color/darker_gray"/>
+
+    <MultiAutoCompleteTextView
+        android:layout_width="290dp"
+        android:layout_height="90dp"
+        android:id="@+id/bio"
+        android:textAlignment="textStart"
+        android:hint="Tell me about yourself"
+        android:fontFamily="@font/aoboshione"
+        android:textColorHint="@android:color/darker_gray"/>
+
+    <!-- Create Profile Button -->
+    <Button
+        android:id="@+id/diveIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Let's Dive IN"
+        android:fontFamily="@font/aoboshione"
+        android:textColor="@android:color/black"
+        android:backgroundTint="@color/GreyLight"
+        android:layout_marginTop="16dp"/>
+
+
+</LinearLayout>

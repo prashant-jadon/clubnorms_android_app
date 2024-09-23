@@ -30,8 +30,8 @@ public class StartActivity extends AppCompatActivity {
         signInWithGoogle = findViewById(R.id.googleSignInButton);
 
         token = getSharedPreferences("clubnorms_token",MODE_PRIVATE);
-        Boolean isLoggedIn = token.getBoolean("isLoggedIn",false);
-        if(isLoggedIn){
+        String isLoggedIn = token.getString("id","");
+        if(!isLoggedIn.isEmpty()){
             startActivity(new Intent(StartActivity.this, MainActivity.class));
             finish();
         }

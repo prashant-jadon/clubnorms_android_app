@@ -12,14 +12,14 @@
     android:padding="16dp">
 
 
-    <!-- Profile Image -->
+    <!-- Header Title -->
     <ImageView
-        android:id="@+id/profile_image"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:src="@drawable/userjoinicon"
-        android:contentDescription="User icon"
+        android:id="@+id/appHeadTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/head"
         android:layout_gravity="center"/>
+    <!-- Title Text -->
 
     <!-- Title Text -->
     <TextView
@@ -51,20 +51,11 @@ your full potential"
         android:layout_width="290dp"
         android:layout_height="wrap_content"
         android:id="@+id/email"
-        android:inputType="textPassword"
         android:hint="Email"
         android:fontFamily="@font/aoboshione"
         android:textColorHint="@android:color/darker_gray"/>
 
 
-    <EditText
-        android:layout_width="290dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/username"
-        android:inputType="textPassword"
-        android:hint="Username"
-        android:fontFamily="@font/aoboshione"
-        android:textColorHint="@android:color/darker_gray"/>
 
     <EditText
         android:layout_width="290dp"

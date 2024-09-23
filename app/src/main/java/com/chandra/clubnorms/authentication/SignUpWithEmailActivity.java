@@ -15,13 +15,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.chandra.clubnorms.MainActivity;
+
 import com.chandra.clubnorms.R;
 import com.chandra.clubnorms.StartActivity;
 import com.chandra.clubnorms.userProfile.UserDetailsActivity;
@@ -41,10 +35,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.appwrite.Client;
 
 
 public class SignUpWithEmailActivity extends AppCompatActivity {
@@ -124,6 +118,9 @@ public class SignUpWithEmailActivity extends AppCompatActivity {
                                 userBody.put("profilePicture","");
                                 userBody.put("email",email);
                                 userBody.put("userId",user.getUid());
+                                userBody.put("interest","");
+                                userBody.put("Followers",new ArrayList<>());
+                                userBody.put("Followings",new ArrayList<>());
 
                                 db.collection("usersCollection")
                                         .document(user.getUid())
@@ -142,6 +139,12 @@ public class SignUpWithEmailActivity extends AppCompatActivity {
                                                 finish();
                                             }
                                         });
+
+                                //db structured
+
+//                                db.collection("usersCollection").document(user.getUid()).collection("courses");
+//                                db.collection("usersCollection").document(user.getUid()).collection("meets");
+//                                db.collection("meets").document();
                                 startActivity(new Intent(SignUpWithEmailActivity.this, UserDetailsActivity.class));
                                 finish();
                             }

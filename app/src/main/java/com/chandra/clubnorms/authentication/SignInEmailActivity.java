@@ -17,12 +17,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.chandra.clubnorms.MainActivity;
 import com.chandra.clubnorms.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,6 +25,8 @@ import com.google.firebase.Firebase;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,6 +40,7 @@ public class SignInEmailActivity extends AppCompatActivity {
     TextView moveToSignUpPage;
     SharedPreferences token;
     FirebaseAuth mAuth;
+    FirebaseFirestore db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

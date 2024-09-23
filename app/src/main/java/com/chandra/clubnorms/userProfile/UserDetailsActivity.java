@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +29,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -35,7 +37,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -51,6 +55,7 @@ public class UserDetailsActivity extends AppCompatActivity {
     FirebaseFirestore db;
     EditText fullname,bio;
     SharedPreferences token;
+    EditText Interest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +69,7 @@ public class UserDetailsActivity extends AppCompatActivity {
         letsDiveIn = findViewById(R.id.diveIn);
         fullname = findViewById(R.id.fullName);
         bio = findViewById(R.id.bio);
+        Interest = findViewById(R.id.interest);
 
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,9 +84,12 @@ public class UserDetailsActivity extends AppCompatActivity {
 
                 String infoBio = bio.getText().toString();
                 String fName = fullname.getText().toString();
+                String interest = Interest.getText().toString();
 
                 if(!infoBio.isEmpty() && !fName.isEmpty()){
-                    updateDataForProfile(getApplicationContext(),fName,infoBio);
+                    updateDataForProfile(getApplicationContext(),fName,infoBio,interest);
+                }else{
+                    Toast.makeText(UserDetailsActivity.this, "Please fill all values", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -160,7 +169,7 @@ public class UserDetailsActivity extends AppCompatActivity {
     }
 
 
-    private void updateDataForProfile(Context context,String fullname,String bio){
+    private void updateDataForProfile(Context context,String fullname,String bio,String interest){
         mAuth = FirebaseAuth.getInstance();
         String user = mAuth.getCurrentUser().getUid();
 
@@ -170,6 +179,7 @@ public class UserDetailsActivity extends AppCompatActivity {
             Map<String, Object> updateInfo = new HashMap<>();
             updateInfo.put("bio",bio);
             updateInfo.put("fullname",fullname);
+            updateInfo.put("interest",interest);
 
             documentReference.update(updateInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
@@ -188,6 +198,39 @@ public class UserDetailsActivity extends AppCompatActivity {
                     Toast.makeText(context, "Failed to create profile", Toast.LENGTH_SHORT).show();
                 }
             });
+            List<String> items = Arrays.asList(interest.split("\\s*,\\s*"));
+            for (String s : items) {
+               DocumentReference interestDocRef =  db.collection("interest").document(s);
+               interestDocRef.update("users", FieldValue.arrayUnion(user))
+                       .addOnSuccessListener(new OnSuccessListener<Void>() {
+                           @Override
+                           public void onSuccess(Void unused) {
+                               Log.d("Firestore", "User added to interest: " + s);
+                           }
+                       })
+                       .addOnFailureListener(new OnFailureListener() {
+                           @Override
+                           public void onFailure(@NonNull Exception e) {
+                               Map<String, Object> newInterest = new HashMap<>();
+                               newInterest.put("users", Arrays.asList(user));
+
+                               // Set the document with the initial 'users' array
+                               interestDocRef.set(newInterest)
+                                       .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                           @Override
+                                           public void onSuccess(Void aVoid) {
+                                               Log.d("Firestore", "New interest created and user added: " + s);
+                                           }
+                                       })
+                                       .addOnFailureListener(new OnFailureListener() {
+                                           @Override
+                                           public void onFailure(@NonNull Exception e) {
+                                               Log.w("Firestore", "Error adding user to interest", e);
+                                           }
+                                       });
+                           }
+                       });
+            }
         }
     }
 

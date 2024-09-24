@@ -1,14 +1,5 @@
 package com.chandra.clubnorms.fragments;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,12 +7,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.StrictMode;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +20,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chandra.clubnorms.R;
 import com.chandra.clubnorms.fragmentsInProfile.CoursesFragment;
 import com.chandra.clubnorms.fragmentsInProfile.HostedFragment;
-import com.chandra.clubnorms.fragmentsInProfile.UpcomingFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -43,11 +31,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileFragment extends Fragment {
@@ -92,10 +75,8 @@ public class ProfileFragment extends Fragment {
                 if(itemId==R.id.courses){
                     fragment = new CoursesFragment();
                     getEnterTransition();
-                }else  if(itemId==R.id.hosted){
+                }else  if(itemId==R.id.meets){
                     fragment = new HostedFragment();
-                }else if(itemId==R.id.upcoming){
-                    fragment=new UpcomingFragment();
                 }
 
                 if(fragment!=null){
@@ -121,6 +102,8 @@ public class ProfileFragment extends Fragment {
                         String profilePic = documentSnapshot.getString("profilePicture");
                         List<String> followersList = (List<String>) documentSnapshot.get("Followers");
                         List<String> followingList = (List<String>) documentSnapshot.get("Followings");
+
+
 
                         String followersCount = followersList != null ? followersList.size()+"" : "0";
                         String followingsCount = followingList != null ? followingList.size()+"" : "0";

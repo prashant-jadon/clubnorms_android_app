@@ -7,14 +7,9 @@
         android:icon="@drawable/courseicon"
         />
     <item
-        android:id="@+id/hosted"
-        android:title="Hosted"
+        android:id="@+id/meets"
+        android:title="Meet"
         android:icon="@drawable/hostedicon"/>
-
-    <item
-        android:id="@+id/upcoming"
-        android:title="Upcoming"
-        android:icon="@drawable/upcomingicon"/>
 
 
 </menu>

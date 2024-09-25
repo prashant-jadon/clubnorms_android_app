@@ -1,7 +1,6 @@
 package com.chandra.clubnorms;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -20,7 +19,12 @@ import com.chandra.clubnorms.fragments.ProfileFragment;
 import com.chandra.clubnorms.fragments.SavedFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.HashMap;
+
 public class MainActivity extends AppCompatActivity {
+
+    private HashMap<Integer, Fragment> fragmentMap = new HashMap<>();
+    private Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +34,9 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
 
-        // Set default fragment to HomeFragment
-        loadFragment(new HomeFragment());
+        // Load the default fragment
+        currentFragment = new HomeFragment();
+        loadFragment(currentFragment);
 
         bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
@@ -39,48 +44,59 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment = null;
                 int itemId = item.getItemId();
 
-                if (itemId == R.id.home) {
-                    fragment = new HomeFragment();
-                    overridePendingTransition(0, 0);
-                } else if (itemId == R.id.savedcourses) {
-                    fragment = new SavedFragment();
-                    overridePendingTransition(0, 0);
-                }else if (itemId == R.id.addpost) {
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
-                    alertDialog.setTitle("Choose Action")
-                            .setMessage("What would you like to do?")
-                            // Set "Add Post" button
-                            .setPositiveButton("Add Post", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    loadFragment(new AddPostFragment()); // Load the Add Post fragment
-                                }
-                            })
-                            // Set "Add Course" button
-                            .setNegativeButton("Add Course", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    loadFragment(new AddCourseFragment()); // Load the Add Course fragment
-                                }
-                            })
-                            .show(); // Show the alert dialog
-                } else if (itemId == R.id.notifications) {
-                    fragment = new NotificationsFragment();
-                    overridePendingTransition(0, 0);
-                } else if (itemId == R.id.profile) {
-                    fragment = new ProfileFragment();
-                    overridePendingTransition(0, 0);
+                // Check if the fragment is already loaded
+                if (fragmentMap.containsKey(itemId)) {
+                    fragment = fragmentMap.get(itemId);
+                } else {
+                    if (itemId == R.id.home) {
+                        fragment = new HomeFragment();
+                    } else if (itemId == R.id.savedcourses) {
+                        fragment = new SavedFragment();
+                    } else if (itemId == R.id.addpost) {
+                        showAddDialog(); // Show dialog for Add Post / Add Course
+                        return true; // Do not proceed with loading fragment
+                    } else if (itemId == R.id.notifications) {
+                        fragment = new NotificationsFragment();
+                    } else if (itemId == R.id.profile) {
+                        fragment = new ProfileFragment();
+                    }
+
+                    // Store the new fragment in the map
+                    if (fragment != null) {
+                        fragmentMap.put(itemId, fragment);
+                    }
                 }
 
-                // Load the selected fragment if it's not null
-                if (fragment != null) {
+                // Load the selected fragment if it's not null and different from current
+                if (fragment != null && fragment != currentFragment) {
                     loadFragment(fragment);
+                    currentFragment = fragment; // Update current fragment
                     return true;
                 }
 
                 return false;
             }
         });
+    }
+
+    // Show dialog for Add Post / Add Course
+    private void showAddDialog() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+        alertDialog.setTitle("Choose Action")
+                .setMessage("What would you like to do?")
+                .setPositiveButton("Add Post", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        loadFragment(new AddPostFragment()); // Load the Add Post fragment
+                    }
+                })
+                .setNegativeButton("Add Course", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        loadFragment(new AddCourseFragment()); // Load the Add Course fragment
+                    }
+                })
+                .show(); // Show the alert dialog
     }
 
     // Function to load the selected fragment into the container

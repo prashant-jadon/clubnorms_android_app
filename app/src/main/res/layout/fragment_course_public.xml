@@ -2,23 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent"
-    tools:context=".fragmentsInProfile.HostedFragment">
-
-    <TextView
-        android:id="@+id/nocontent"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="No content found"
-        android:textSize="23dp"
-        android:textColor="@color/black"
-        android:layout_centerInParent="true"/>
+    tools:context=".CoursePublicFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="2dp"
-        android:id="@+id/recyclerViewForPrivate"
+        android:id="@+id/recyclerViewForPublicCourses"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
 </RelativeLayout>

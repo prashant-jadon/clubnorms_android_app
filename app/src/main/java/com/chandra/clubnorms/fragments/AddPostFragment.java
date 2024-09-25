@@ -1,10 +1,12 @@
 package com.chandra.clubnorms.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +30,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.type.DateTime;
 
 
+import org.jitsi.meet.sdk.JitsiMeet;
+import org.jitsi.meet.sdk.JitsiMeetActivity;
+import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -61,6 +69,17 @@ public class AddPostFragment extends Fragment {
         FirebaseUser user = mAuth.getCurrentUser();
         String userId = user.getUid();
 
+        try {
+            URL serverUrl = new URL("https://meet.jit.si");
+            JitsiMeetConferenceOptions options = new JitsiMeetConferenceOptions.Builder()
+                    .setServerURL(serverUrl)
+                    .build();
+            JitsiMeet.setDefaultConferenceOptions(options);
+        } catch (MalformedURLException e) {
+            Log.e("MeetAdapter", "Error initializing Jitsi: ", e);
+        }
+
+
         addMeet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,19 +103,29 @@ public class AddPostFragment extends Fragment {
                             if(documentSnapshot.exists()){
                                 String fname = documentSnapshot.getString("fullname");
                                 String profilePic = documentSnapshot.getString("profilePicture");
-
+                                String code = s.toString();
                                 Map<String,Object> dataForMeet = new HashMap<>();
                                 dataForMeet.put("title",title);
                                 dataForMeet.put("description",description);
                                 dataForMeet.put("createdAt", FieldValue.serverTimestamp());
-                                dataForMeet.put("meetLink",s.toString());
+                                dataForMeet.put("meetLink",code);
                                 dataForMeet.put("fullname",fname);
-                                dataForMeet.put("profilePic",profilePic);
+                                dataForMeet.put("profilePicture",profilePic);
                                 db.collection("usersCollection").document(userId).collection("meets")
                                         .add(dataForMeet).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                             @Override
                                             public void onSuccess(DocumentReference documentReference) {
                                                 Toast.makeText(getContext(), "Meet added successfuly", Toast.LENGTH_SHORT).show();
+
+                                                try {
+                                                    JitsiMeetConferenceOptions options = new JitsiMeetConferenceOptions.Builder()
+                                                            .setRoom(code)
+                                                            .build();
+                                                    JitsiMeetActivity.launch(getContext(), options);
+                                                } catch (Exception e) {
+                                                    Toast.makeText(getContext(), "Error launching Jitsi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                    Log.e("MeetAdapter", "Error launching Jitsi activity: ", e);
+                                                }
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
@@ -116,7 +145,7 @@ public class AddPostFragment extends Fragment {
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-
+                                                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                                             }
                                         });
                             }else{

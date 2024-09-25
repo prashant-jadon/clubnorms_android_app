@@ -2,19 +2,28 @@ package com.chandra.clubnorms.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.chandra.clubnorms.CoursePublicFragment;
+import com.chandra.clubnorms.MeetsPublicFragment;
 import com.chandra.clubnorms.R;
 import com.chandra.clubnorms.adapters.MeetAdapter;
+import com.chandra.clubnorms.fragmentsInProfile.CoursesFragment;
+import com.chandra.clubnorms.fragmentsInProfile.HostedFragment;
 import com.chandra.clubnorms.modals.MeetDataModal;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -34,34 +43,40 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_home, container, false);
+        BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottomNavigationForHome);
+        loadFragment(new MeetsPublicFragment());
 
-        recyclerView = view.findViewById(R.id.recyclerViewForPublic);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        dataList = new ArrayList<>();
-        adapter = new MeetAdapter(dataList);
-        recyclerView.setAdapter(adapter);
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment = null;
+                int itemId = item.getItemId();
 
-        db = FirebaseFirestore.getInstance();
-        fetchDataFromFirebase();
-        
+                if(itemId==R.id.courses){
+                    fragment = new CoursePublicFragment();
+                    getEnterTransition();
+                }else  if(itemId==R.id.meets){
+                    fragment = new MeetsPublicFragment();
+                }
+
+                if(fragment!=null){
+                    loadFragment(fragment);
+                }
+                return true;
+            }
+        });
+
+
         return  view;
     }
 
-    private void fetchDataFromFirebase() {
-        CollectionReference collectionRef = db.collection("publicMeets");
-        collectionRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    MeetDataModal data = document.toObject(MeetDataModal.class);
-                    dataList.add(data);
-                    Log.d("HomeFragment", "Data: " + data.getTitle() + ", " + data.getCreatedAt());
-                }
-                adapter.notifyDataSetChanged(); // Notify adapter about data changes
-            } else {
-                Toast.makeText(getContext(), "Error fetching data", Toast.LENGTH_SHORT).show();
-                Log.e("HomeFragment", "Error getting documents: ", task.getException());
-            }
-        });
+
+    private void loadFragment(Fragment fragment) {
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.frameLayoutForHome, fragment);
+        transaction.commit();
     }
+
+
 
 }

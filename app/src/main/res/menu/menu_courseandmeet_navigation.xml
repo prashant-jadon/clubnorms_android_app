@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/meets"
+        android:title="Meet"
+        android:icon="@drawable/hostedicon"/>
+
+    <item
+        android:id="@+id/courses"
+        android:title="Courses"
+        android:icon="@drawable/courseicon"
+        />
+
+</menu>

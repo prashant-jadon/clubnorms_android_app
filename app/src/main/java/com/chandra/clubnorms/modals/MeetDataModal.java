@@ -4,30 +4,24 @@ import com.google.firebase.Timestamp;
 
 public class MeetDataModal {
 
-
     String title;
     Timestamp createdAt;
 
-    public MeetDataModal(String title, Timestamp createdAt, String description, String meetLink, String fullname, String profilepic) {
+    public MeetDataModal(String title, Timestamp createdAt, String description, String meetLink, String fullname, String profilePicture) {
         this.title = title;
         this.createdAt = createdAt;
         this.description = description;
         this.meetLink = meetLink;
         this.fullname = fullname;
-        this.profilepic = profilepic;
+        this.profilePicture = profilePicture;
     }
 
     String description;
     String meetLink;
     String fullname;
 
-    public String getProfilepic() {
-        return profilepic;
-    }
 
-    public void setProfilepic(String profilepic) {
-        this.profilepic = profilepic;
-    }
+
 
     public String getFullname() {
         return fullname;
@@ -69,7 +63,16 @@ public class MeetDataModal {
         this.title = title;
     }
 
-    String profilepic;
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
+    String profilePicture;
 
     public MeetDataModal() {
 

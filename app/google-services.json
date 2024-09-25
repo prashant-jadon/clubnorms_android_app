@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "380149334935",
+    "project_id": "clubnorms",
+    "storage_bucket": "clubnorms.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:380149334935:android:bf295e15d42e474d3abad2",
+        "android_client_info": {
+          "package_name": "com.chandra.clubnorms"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgnfhEWZjKz0SyTlwkthFS4HzkFjozwCE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

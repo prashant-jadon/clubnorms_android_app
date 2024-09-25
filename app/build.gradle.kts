@@ -40,6 +40,7 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     implementation(libs.firebase.auth)
+    implementation ("org.jitsi.react:jitsi-meet-sdk:8.1.2"){setTransitive(true)}
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.storage)
     testImplementation(libs.junit)

@@ -8,7 +8,6 @@ public class MeetDataModal {
     String title;
     Timestamp createdAt;
 
-
     public MeetDataModal(String title, Timestamp createdAt, String description, String meetLink, String fullname, String profilepic) {
         this.title = title;
         this.createdAt = createdAt;
